@@ -1,0 +1,7 @@
+@model EditUserDescription
+<form style="border: 2px solid green; border-radius: 5px; padding: 10px; margin-top: 10px;" asp-action="EditDesc" asp-controller="Home" method="post">
+    <span style="color: red;" asp-validation-for="Description"></span>
+    <h2>Edit Description</h2>
+    <textarea class="form-control" asp-for="Description" placeholder="@ViewBag.User.Description"></textarea>
+    <button style="margin-top: 10px;" class="btn btn-outline-success">Save</button>
+</form>

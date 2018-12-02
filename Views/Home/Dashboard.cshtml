@@ -1,0 +1,76 @@
+@{
+    ViewData["Title"] = "Contact";
+}
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-confirmation2/dist/bootstrap-confirmation.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle=confirmation]').confirmation({rootSelector: '[data-toggle=confirmation]',
+            // other options
+            });
+        });
+    </script>
+}
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand">Test App</a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a style="font-weight: bold;" class="nav-link" href="/dashboard">Dashboard</a>   
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/selfedit">Profile</a>
+            </li>
+        </ul>
+        <a href="/logout" class="nav-item active nav-link my-2 my-lg-0">Log Out</a>
+    </nav>
+    @if(@ViewBag.Level == 9)
+    {
+        <h1 style="display: inline-block;">Manage Users</h1>
+        <a style="float: right; margin-top: 10px;" href="/new" class="btn btn-outline-primary">Add New</a>
+    }
+    else
+    {
+        <h1>All Users</h1>
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Created At</th>
+                <th>User Level</th>
+                @if(@ViewBag.Level == 9)
+                {
+                    <th>Actions</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(User user in @ViewBag.Users)
+            {
+                <tr>
+                    <td>@user.UserId</td>
+                    <td><a href="/wall/@user.UserId">@user.FirstName @user.LastName</a></td>
+                    <td>@user.Email</td>
+                    <td>@user.CreatedAt.ToString("MMMM dd yyyy")</td>
+                    @if(@user.Level == 9)
+                    {
+                        <td>Admin</td>
+                    }
+                    else
+                    {
+                        <td>Normal User</td>
+                    }
+                    @if(@ViewBag.Level == 9)
+                    {
+                        <td><a class="btn btn-outline-success" href="/edit/@user.UserId">Edit</a>
+                        <a class="btn btn-outline-danger" data-toggle="confirmation" data-btn-ok-label="Continue" data-btn-ok-class="btn-outline-success" data-btn-cancel-label="Cancel" data-btn-cancel-class="btn-outline-danger" data-title="Are you sure?" data-content="Pressing 'Continue' will delete @user.FirstName from the database." href="delete/@user.UserId">Delete</a></td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,49 @@
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand">Test App</a>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/dashboard">Dashboard</a>                        
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/selfedit">Profile</a>
+            </li>
+        </ul>
+        <a href="/logout" class="nav-item active nav-link my-2 my-lg-0">Log Out</a>
+    </nav>
+    <h1 style="display: inline-block">Edit User #@ViewBag.User.UserId</h1>
+    <a href="/dashboard" style="float: right; margin-top: 10px;" class="btn btn-outline-primary">Return to Dashboard</a>
+    @model EditUser
+    <form style="border: 2px solid green; border-radius: 5px; padding: 10px;" asp-action="Editing" asp-controller="Home" asp-route-id="@ViewBag.User.UserId" method="post">
+        <h2>Edit Information</h2>
+        <span style="color: red;" asp-validation-for="Email"></span>
+        <p>
+        Email Address:
+        <input class="form-control" type="text" asp-for="Email" value="@ViewBag.User.Email">
+        </p>
+        <span style="color: red;" asp-validation-for="FirstName"></span>
+        <p>
+        First Name:
+        <input class="form-control" type="text" asp-for="FirstName" value="@ViewBag.User.FirstName">
+        </p>
+        <span style="color: red;" asp-validation-for="LastName"></span>
+        <p>
+        Last Name:
+        <input class="form-control" type="text" asp-for="LastName" value="@ViewBag.User.LastName">
+        </p>
+        <select asp-for="Level" class="form-control">
+            @if(@ViewBag.User.Level == 9)
+            {
+                <option value="9" selected="selected">Admin</option>
+                <option value="0">Normal User</option>
+            }
+            else
+            {
+                <option value="0" selected="selected">Normal User</option>
+                <option value="9">Admin</option>
+            }
+        </select>
+        <button style="margin-top: 10px;" class="btn btn-outline-success">Save</button>
+    </form>
+    <partial name="EditPassword"/>
+</div>

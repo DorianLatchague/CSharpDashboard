@@ -1,0 +1,8 @@
+@model Messages
+<form asp-action="CreateMessage" asp-controller="Home" method="post">
+    <input type="hidden" asp-for="ReceiverId" value="@ViewBag.User.UserId">
+    <label style="display: block; font-weight: bold;">Leave a Message</label>
+    <span style="color: red" asp-validation-for="Message"></span>
+    <textarea class="form-control" asp-for="Message" placeholder="Write a message"></textarea>
+    <button style="float: right; margin-top: 10px;" class="btn btn-outline-success">Post</button>
+</form>

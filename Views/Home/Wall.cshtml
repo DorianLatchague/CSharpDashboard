@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Contact";
+}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Test App</a>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="/dashboard">Dashboard</a>   
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/selfedit">Profile</a>
+        </li>
+    </ul>
+    <a href="/logout" class="nav-item active nav-link my-2 my-lg-0">Log Out</a>
+</nav>
+<h1>@ViewBag.User.FirstName @ViewBag.User.LastName</h1>
+<p>Registered on: @ViewBag.User.CreatedAt.ToString("MMMM dd yyyy")</p>
+<p>User ID: #@ViewBag.User.UserId</p>
+<p>Email address: @ViewBag.User.Email</p>
+<p>Description: @ViewBag.User.Description</p>
+<partial name="Message"/>
+@foreach(Messages message in @ViewBag.Messages)
+{
+    <p><a href="/wall/@message.User.UserId">@message.User.FirstName @message.User.LastName</a> : @message.CreatedAt.ToString("MMMM dd yyyy")</p>
+    <p>@message.Message</p>
+    @foreach(Comments comment in @ViewBag.Comments)
+    {
+        if(comment.MessageId == message.MessageId)
+        {
+            <div style="margin-left: 20px;">
+                <p>@comment.Creator.FirstName @comment.Creator.LastName : @comment.CreatedAt.ToString("MMMM dd yyyy")</p>
+                <p>@comment.Comment</p>
+            </div>
+        }
+    }
+    @model Comments
+    <form style="margin-left: 20px;" asp-action="CreateComment" asp-controller="Home" asp-route-user_id="@ViewBag.User.UserId" method="post">
+        <input type="hidden" asp-for="MessageId" value="@message.MessageId">
+        <label style="display: block;">Post a Comment.</label>
+        <span style="color: red" asp-validation-for="Comment"></span>
+        <textarea class="form-control" asp-for="Comment" placeholder="Write a comment"></textarea>
+    <button style="float: right; margin-top: 10px;" class="btn btn-outline-success">Post</button>
+    </form>
+}
